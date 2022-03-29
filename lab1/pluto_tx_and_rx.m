@@ -18,7 +18,7 @@ txWaveform = sw();
  
 
 plot(linspace(0, 1/sw.Frequency), txWaveform(1: 100));
-xlabel("time (s)");
+title("Transmitted Signal"); xlabel("time (s)");
 
 pause(5);
 tx = sdrtx('Pluto'); 

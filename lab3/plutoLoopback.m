@@ -33,10 +33,14 @@ data = data(end-remainingSPS*1000+1:end);
 
 for index = 0:300
     % Delay Signal
-    tau_hat = 0.5;
+    tau_hat = index/50;    
     delayedsig = VFD(data, tau_hat);
     % Linear interpolation
     o = sum(reshape(delayedsig, remainingSPS, length(delayedsig)/ remainingSPS).',2)./remainingSPS;
     cd(o);
     pause(0.1);
 end
+
+
+release(tx);
+release(rx);

@@ -13,6 +13,7 @@ data = randi([0 1], 2 ^ 15, 1);
 qpskMod = comm.QPSKModulator('BitInput', true); %defaulted to false
 modData = qpskMod(data); 
 
+
 % Set up filters
 rctFilt = comm.RaisedCosineTransmitFilter('OutputSamplesPerSymbol', samplesperSymbol);
 rcrFilt = comm.RaisedCosineReceiveFilter('InputSamplesPerSymbol', samplesperSymbol, 'DecimationFactor', decimation);

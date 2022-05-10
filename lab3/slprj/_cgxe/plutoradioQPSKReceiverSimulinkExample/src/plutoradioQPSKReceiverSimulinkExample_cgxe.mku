@@ -1,0 +1,80 @@
+#--------------------------- Tool Specifications -------------------------
+#
+# Modify the following macros to reflect the tools you wish to use for
+# compiling and linking your code.
+#
+CC = /Applications/MATLAB_R2021b.app/bin/mex -R2018a
+LD = $(CC)
+ 
+MODEL  = plutoradioQPSKReceiverSimulinkExample
+TARGET = cgxe
+MODULE_SRCS 	= m_RpNfljt9ezw1bujKbI0k9E.c m_uLCm2mNFFZxnk8m6CQ2HWH.c m_EL5ZCEnMbQ0wahEBnxIi4G.c m_FptlJXH8cK784Mkpa3oqGG.c
+MODEL_SRC	= plutoradioQPSKReceiverSimulinkExample_cgxe.c
+MODEL_REG    = plutoradioQPSKReceiverSimulinkExample_cgxe_registry.c
+MAKEFILE    = plutoradioQPSKReceiverSimulinkExample_cgxe.mku
+MATLAB_ROOT	= /Applications/MATLAB_R2021b.app
+BUILDARGS   = 
+#------------------------------ Include/Lib Path ------------------------------
+ 
+
+ 
+USER_INCLUDES = -I"/Users/rjmacaranas/Desktop/ee-504/lab3" -I"/Users/rjmacaranas/Documents/MATLAB/SupportPackages/R2021b/toolbox/shared/sdr/sdrplug/plutoradio_hspdef/plutoradiodemos" -I"/Users/rjmacaranas/Desktop/ee-504/lab3/slprj/_cprj" 
+MLSL_INCLUDES     = \
+    -I"/Applications/MATLAB_R2021b.app/extern/include" \
+    -I"/Applications/MATLAB_R2021b.app/simulink/include" \
+    -I"/Applications/MATLAB_R2021b.app/rtw/c/src"
+
+THIRD_PARTY_INCLUDES = -I"/Users/rjmacaranas/Desktop/ee-504/lab3/slprj/_cgxe/plutoradioQPSKReceiverSimulinkExample/src" 
+
+INCLUDE_PATH = $(MLSL_INCLUDES) $(USER_INCLUDES) $(THIRD_PARTY_INCLUDES)
+ 
+#----------------- Compiler and Linker Options --------------------------------
+ 
+
+CC_OPTS =  -w -O2   
+CPP_REQ_DEFINES = -DMATLAB_MEX_FILE
+ 
+# Uncomment this line to move warning level to W4
+# cflags = $(cflags:W3=W4)
+CFLAGS = $(CPP_REQ_DEFINES) $(INCLUDE_PATH) CFLAGS="\$$CFLAGS $(CC_OPTS)"
+ 
+LDFLAGS = -Wl,-rpath,@loader_path  
+ 
+AUXLDFLAGS = 
+#----------------------------- Source Files -----------------------------------
+ 
+USER_OBJS =
+
+AUX_SRCS =   
+
+REQ_SRCS  = $(MODEL_SRC) $(MODEL_REG) $(MODULE_SRCS) $(AUX_SRCS) 
+
+REQ_OBJS = $(REQ_SRCS:.cpp=.o)
+REQ_OBJS2 = $(REQ_OBJS:.c=.o)
+OBJS = $(REQ_OBJS2) $(USER_OBJS) $(AUX_ABS_OBJS)
+OBJLIST_FILE = plutoradioQPSKReceiverSimulinkExample_cgxe.mol
+TMWLIB = -L/Applications/MATLAB_R2021b.app/bin/maci64 -lfixedpoint -L/Applications/MATLAB_R2021b.app/bin/maci64 -lut -L/Applications/MATLAB_R2021b.app/bin/maci64 -lemlrt -L/Applications/MATLAB_R2021b.app/bin/maci64 -lmwslexec_simbridge -L/Applications/MATLAB_R2021b.app/bin/maci64 -lmwcgxert -L/Applications/MATLAB_R2021b.app/bin/maci64 -lmwcgxeooprt -L/Applications/MATLAB_R2021b.app/bin/maci64 -lmwmathutil -L/Applications/MATLAB_R2021b.app/bin/maci64 -lmwslccrt -L/Applications/MATLAB_R2021b.app/bin/maci64 -lmwipp -L/Applications/MATLAB_R2021b.app/bin/maci64 -lcovrt -L/Applications/MATLAB_R2021b.app/bin/maci64 -lmwsl_sfcn_cov_bridge 
+PARLIB = 
+  MAPCSF = /Applications/MATLAB_R2021b.app/tools/maci64/mapcsf
+   # RUN_MAPCSF_ON_UNIX is defined only if MAPCSF exists on this platform.
+   ifneq ($(wildcard $(MAPCSF)),) # run MAPCSF if it exists on this platform
+      RUN_MAPCSF_ON_UNIX =  /Applications/MATLAB_R2021b.app/tools/maci64/mapcsf $@
+   endif
+ 
+THIRD_PARTY_LIBS = 
+
+#--------------------------------- Rules --------------------------------------
+ 
+MEX_FILE_NAME = $(MODEL)_$(TARGET).mexmaci64
+ 
+$(MEX_FILE_NAME): $(MAKEFILE) $(OBJS) $(MEXLIB)
+	@echo ### Linking ...
+	$(CC) -silent LDFLAGS="\$$LDFLAGS $(LDFLAGS) $(AUXLDFLAGS)" -output $(MEX_FILE_NAME) @$(OBJLIST_FILE) $(OBJS) $(TMWLIB) $(PARLIB) $(THIRD_PARTY_LIBS) 
+	$(RUN_MAPCSF_ON_UNIX)
+
+%.o :	%.c
+	$(CC) -c $(CFLAGS) $<
+
+%.o :	%.cpp
+	$(CC) -c $(CFLAGS) $<
+
